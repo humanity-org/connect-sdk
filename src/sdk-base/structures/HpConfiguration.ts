@@ -1,0 +1,30 @@
+import type { HpConfigurationPreset } from "./HpConfigurationPreset";
+import type { HpScopeDescriptor } from "./HpScopeDescriptor";
+
+export type HpConfiguration = {
+  issuer: string;
+  authorization_endpoint: string;
+  token_endpoint: string;
+  revoke_endpoint: string;
+  userinfo_endpoint: string;
+  jwks_uri: string;
+  consent_presets_endpoint: string;
+  presets_endpoint: string;
+  presets_batch_endpoint: string;
+  credentials_endpoint: string;
+  authorizations_endpoint: string;
+  hp_configuration_endpoint: string;
+  scopes_supported: string[];
+  scopes_catalog: HpScopeDescriptor[];
+  grant_types_supported: string[];
+  code_challenge_methods_supported: string[];
+  response_types_supported: string[];
+  token_endpoint_auth_methods_supported: string[];
+  subject_types_supported: string[];
+  claim_types_supported: string[];
+  claims_supported: string[];
+  id_token_signing_alg_values_supported: string[];
+  presets_available: HpConfigurationPreset[];
+  rate_limit_default: number;
+  rate_limit_unit: string;
+};

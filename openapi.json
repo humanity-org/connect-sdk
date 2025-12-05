@@ -1,0 +1,2970 @@
+{
+  "openapi": "3.1.0",
+  "servers": [
+    {
+      "url": "https://github.com/samchon/nestia",
+      "description": "insert your server url"
+    }
+  ],
+  "info": {
+    "version": "0.1.0",
+    "title": "hp-public-dev-api-server",
+    "description": "NestJS CQRS + TDD base for Humanity Public Dev API"
+  },
+  "paths": {
+    "/credentials": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "updated_since",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CredentialsResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "credentials"
+        ],
+        "x-samchon-controller": "StatusController"
+      }
+    },
+    "/authorizations": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "oneOf": [
+                {
+                  "const": "active"
+                },
+                {
+                  "const": "revoked"
+                }
+              ]
+            },
+            "required": false
+          },
+          {
+            "name": "updated_since",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationsResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "authorizations"
+        ],
+        "x-samchon-controller": "StatusController"
+      }
+    },
+    "/consent/presets": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsentPresetsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsentPresetsResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "consent",
+          "presets",
+          "consent"
+        ],
+        "x-samchon-controller": "PresetsController"
+      }
+    },
+    "/presets/{preset_name}": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "preset_name",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PresetResult"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "presets",
+          "getPreset"
+        ],
+        "x-samchon-controller": "PresetsController"
+      }
+    },
+    "/presets/batch": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyPresetsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyPresetsResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "presets",
+          "batch"
+        ],
+        "x-samchon-controller": "PresetsController"
+      }
+    },
+    "/presets": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PresetsListResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "presets",
+          "list"
+        ],
+        "x-samchon-controller": "PresetsController"
+      }
+    },
+    "/userinfo": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInfoResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "userinfo",
+          "getUserInfo"
+        ],
+        "x-samchon-controller": "UserInfoController"
+      }
+    },
+    "/oauth/authorize": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "redirect_uri",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "response_type",
+            "in": "query",
+            "schema": {
+              "const": "code"
+            },
+            "required": true
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "name": "code_challenge",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "code_challenge_method",
+            "in": "query",
+            "schema": {
+              "const": "S256"
+            },
+            "required": true
+          },
+          {
+            "name": "authorization_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "name": "login_hint",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "name": "nonce",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "oauth",
+          "authorize",
+          "authorize"
+        ],
+        "x-samchon-controller": "OauthController"
+      }
+    },
+    "/oauth/token": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "grant_type": {
+                        "const": "authorization_code"
+                      },
+                      "code": {
+                        "type": "string"
+                      },
+                      "redirect_uri": {
+                        "type": "string"
+                      },
+                      "client_id": {
+                        "type": "string"
+                      },
+                      "code_verifier": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "grant_type",
+                      "code",
+                      "redirect_uri",
+                      "client_id",
+                      "code_verifier"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "grant_type": {
+                        "const": "refresh_token"
+                      },
+                      "refresh_token": {
+                        "type": "string"
+                      },
+                      "client_id": {
+                        "type": "string"
+                      },
+                      "scope": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "grant_type",
+                      "refresh_token",
+                      "client_id"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "oauth",
+          "token"
+        ],
+        "x-samchon-controller": "OauthController"
+      }
+    },
+    "/oauth/client/user-token": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientUserTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientUserTokenResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "oauth",
+          "client",
+          "user_token",
+          "clientUserToken"
+        ],
+        "x-samchon-controller": "OauthController"
+      }
+    },
+    "/oauth/authorize/context": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "authorization_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizeContextResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "oauth",
+          "authorize",
+          "context",
+          "authorizeContext"
+        ],
+        "x-samchon-controller": "OauthController"
+      }
+    },
+    "/oauth/authorize/result": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "authorization_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "oauth",
+          "authorize",
+          "result",
+          "authorizeResult"
+        ],
+        "x-samchon-controller": "OauthController"
+      }
+    },
+    "/oauth/revoke": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevokeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevokeResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "oauth",
+          "revoke"
+        ],
+        "x-samchon-controller": "OauthController"
+      }
+    },
+    "/oauth/authorize/approve": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthorizeApproveRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizeApproveResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "oauth",
+          "authorize",
+          "approve"
+        ],
+        "x-samchon-controller": "OauthController"
+      }
+    },
+    "/oauth/authorize/deny": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthorizeDenyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizeDenyResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "oauth",
+          "authorize",
+          "deny"
+        ],
+        "x-samchon-controller": "OauthController"
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthLivenessResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "health",
+          "healthcheck"
+        ],
+        "x-samchon-controller": "HealthController"
+      }
+    },
+    "/ready": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthReadinessResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "ready",
+          "readiness"
+        ],
+        "x-samchon-controller": "HealthController"
+      }
+    },
+    "/_example/ping": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamplePingResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "_example",
+          "ping"
+        ],
+        "x-samchon-controller": "ExamplesController"
+      }
+    },
+    "/_example/echo": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExampleEchoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExampleEchoResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "_example",
+          "echo"
+        ],
+        "x-samchon-controller": "ExamplesController"
+      }
+    },
+    "/.well-known/openid-configuration": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenIdConfiguration"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "_well_known",
+          "openid_configuration",
+          "getOpenIdConfiguration"
+        ],
+        "x-samchon-controller": "WellKnownController"
+      }
+    },
+    "/.well-known/jwks.json": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonWebKeySet"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "_well_known",
+          "jwks_json",
+          "getJwks"
+        ],
+        "x-samchon-controller": "WellKnownController"
+      }
+    },
+    "/.well-known/hp-configuration": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HpConfiguration"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "_well_known",
+          "hp_configuration",
+          "getHpConfiguration"
+        ],
+        "x-samchon-controller": "DiscoveryController"
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthLogoutRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthLogoutResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "auth",
+          "logout"
+        ],
+        "x-samchon-controller": "AuthController"
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthMeResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "auth",
+          "me"
+        ],
+        "x-samchon-controller": "AuthController"
+      }
+    },
+    "/access/requests/standard": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateStandardAccessRequestResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "access",
+          "requests",
+          "standard",
+          "createStandard"
+        ],
+        "x-samchon-controller": "AccessController"
+      }
+    },
+    "/access/developer/accept": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptDeveloperRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessAcceptDeveloperResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "access",
+          "developer",
+          "accept",
+          "acceptDeveloper"
+        ],
+        "x-samchon-controller": "AccessController"
+      }
+    },
+    "/access/me": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessListResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-samchon-accessor": [
+          "access",
+          "me",
+          "myAccess"
+        ],
+        "x-samchon-controller": "AccessController"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CredentialsResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CredentialItem"
+            }
+          },
+          "last_modified": {
+            "type": "string"
+          },
+          "has_more": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "CredentialItem": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "preset": {
+            "oneOf": [
+              {
+                "const": "is_human"
+              },
+              {
+                "const": "is_18_plus"
+              },
+              {
+                "const": "is_21_plus"
+              },
+              {
+                "const": "is_accredited_investor"
+              },
+              {
+                "const": "is_qualified_purchaser"
+              },
+              {
+                "const": "is_institutional_investor"
+              },
+              {
+                "const": "palm_verified"
+              },
+              {
+                "const": "age_gate_alcohol"
+              },
+              {
+                "const": "age_gate_gambling"
+              },
+              {
+                "const": "investment_gate"
+              },
+              {
+                "const": "humanity_user"
+              }
+            ]
+          },
+          "value": {
+            "type": "boolean"
+          },
+          "status": {
+            "oneOf": [
+              {
+                "const": "valid"
+              },
+              {
+                "const": "expired"
+              },
+              {
+                "const": "pending"
+              },
+              {
+                "const": "unavailable"
+              }
+            ]
+          },
+          "expires_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "preset",
+          "value",
+          "status",
+          "expires_at",
+          "updated_at"
+        ]
+      },
+      "CredentialsQuery": {
+        "type": "object",
+        "properties": {
+          "updated_since": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "number"
+          }
+        },
+        "required": []
+      },
+      "AuthorizationsResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthorizationUpdate"
+            }
+          },
+          "last_modified": {
+            "type": "string"
+          },
+          "has_more": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "AuthorizationUpdate": {
+        "type": "object",
+        "properties": {
+          "authorization_id": {
+            "type": "string"
+          },
+          "organization_id": {
+            "type": "string"
+          },
+          "app_scoped_user_id": {
+            "type": "string"
+          },
+          "status": {
+            "oneOf": [
+              {
+                "const": "active"
+              },
+              {
+                "const": "revoked"
+              }
+            ]
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "authorization_id",
+          "organization_id",
+          "app_scoped_user_id",
+          "status",
+          "updated_at"
+        ]
+      },
+      "AuthorizationsQuery": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "oneOf": [
+              {
+                "const": "active"
+              },
+              {
+                "const": "revoked"
+              }
+            ]
+          },
+          "updated_since": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "number"
+          }
+        },
+        "required": []
+      },
+      "ConsentPresetsResponse": {
+        "type": "object",
+        "properties": {
+          "accepted": {
+            "type": "boolean"
+          },
+          "expires_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "accepted"
+        ]
+      },
+      "ConsentPresetsRequest": {
+        "type": "object",
+        "properties": {
+          "presets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "oneOf": [
+                    {
+                      "const": "is_human"
+                    },
+                    {
+                      "const": "is_18_plus"
+                    },
+                    {
+                      "const": "is_21_plus"
+                    },
+                    {
+                      "const": "is_accredited_investor"
+                    },
+                    {
+                      "const": "is_qualified_purchaser"
+                    },
+                    {
+                      "const": "is_institutional_investor"
+                    },
+                    {
+                      "const": "palm_verified"
+                    },
+                    {
+                      "const": "age_gate_alcohol"
+                    },
+                    {
+                      "const": "age_gate_gambling"
+                    },
+                    {
+                      "const": "investment_gate"
+                    },
+                    {
+                      "const": "humanity_user"
+                    }
+                  ]
+                },
+                "value": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "value"
+              ]
+            }
+          },
+          "computed_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "presets",
+          "computed_at"
+        ]
+      },
+      "PresetResult": {
+        "type": "object",
+        "properties": {
+          "preset": {
+            "oneOf": [
+              {
+                "const": "is_human"
+              },
+              {
+                "const": "is_18_plus"
+              },
+              {
+                "const": "is_21_plus"
+              },
+              {
+                "const": "is_accredited_investor"
+              },
+              {
+                "const": "is_qualified_purchaser"
+              },
+              {
+                "const": "is_institutional_investor"
+              },
+              {
+                "const": "palm_verified"
+              },
+              {
+                "const": "age_gate_alcohol"
+              },
+              {
+                "const": "age_gate_gambling"
+              },
+              {
+                "const": "investment_gate"
+              },
+              {
+                "const": "humanity_user"
+              }
+            ]
+          },
+          "value": {
+            "type": "boolean"
+          },
+          "status": {
+            "oneOf": [
+              {
+                "const": "valid"
+              },
+              {
+                "const": "expired"
+              },
+              {
+                "const": "pending"
+              },
+              {
+                "const": "unavailable"
+              }
+            ]
+          },
+          "expires_at": {
+            "type": "string"
+          },
+          "verified_at": {
+            "type": "string"
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/Recordstringstringnumberbooleannull"
+          }
+        },
+        "required": [
+          "preset",
+          "value",
+          "status",
+          "expires_at"
+        ]
+      },
+      "Recordstringstringnumberbooleannull": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "description": "Construct a type with a set of properties K of type T",
+        "additionalProperties": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "VerifyPresetsResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PresetResult"
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "preset": {
+                  "oneOf": [
+                    {
+                      "const": "is_human"
+                    },
+                    {
+                      "const": "is_18_plus"
+                    },
+                    {
+                      "const": "is_21_plus"
+                    },
+                    {
+                      "const": "is_accredited_investor"
+                    },
+                    {
+                      "const": "is_qualified_purchaser"
+                    },
+                    {
+                      "const": "is_institutional_investor"
+                    },
+                    {
+                      "const": "palm_verified"
+                    },
+                    {
+                      "const": "age_gate_alcohol"
+                    },
+                    {
+                      "const": "age_gate_gambling"
+                    },
+                    {
+                      "const": "investment_gate"
+                    },
+                    {
+                      "const": "humanity_user"
+                    }
+                  ]
+                },
+                "error": {
+                  "$ref": "#/components/schemas/PresetError"
+                }
+              },
+              "required": [
+                "preset",
+                "error"
+              ]
+            }
+          }
+        },
+        "required": [
+          "results",
+          "errors"
+        ]
+      },
+      "PresetError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "error_code": {
+            "oneOf": [
+              {
+                "const": "E4003",
+                "description": "Insufficient scope for the requested preset data; see Appendix J Error Codes (E4003) and Appendix O Advanced Consent Management (revoked scopes)."
+              },
+              {
+                "const": "E4004",
+                "description": "Preset is unavailable because verification is pending, revoked, or incomplete; documented in Appendix J Error Codes (E4004) and Appendix D Developer Flows."
+              },
+              {
+                "const": "E4010",
+                "description": "Cached preset data has expired and requires reauthorization; described in Appendix B API Reference preset expiration response."
+              },
+              {
+                "const": "E4041",
+                "description": "OAuth access token is expired; covered in Appendix J Error Codes (E4041 Token Expired)."
+              },
+              {
+                "const": "E4042",
+                "description": "OAuth access token is invalid due to revocation, mismatch, or signature issues; detailed in Appendix J Error Codes (E4042 Invalid Token)."
+              },
+              {
+                "const": "E4044",
+                "description": "Requested preset resource cannot be found; specified in Appendix J Error Codes (E4044 Not Found)."
+              }
+            ]
+          },
+          "error_description": {
+            "type": "string"
+          },
+          "error_subcode": {
+            "type": "string"
+          },
+          "context": {
+            "$ref": "#/components/schemas/Recordstringstringnumberbooleannull"
+          }
+        },
+        "required": [
+          "error",
+          "error_code",
+          "error_description"
+        ]
+      },
+      "VerifyPresetsRequest": {
+        "type": "object",
+        "properties": {
+          "presets": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "const": "is_human"
+                },
+                {
+                  "const": "is_18_plus"
+                },
+                {
+                  "const": "is_21_plus"
+                },
+                {
+                  "const": "is_accredited_investor"
+                },
+                {
+                  "const": "is_qualified_purchaser"
+                },
+                {
+                  "const": "is_institutional_investor"
+                },
+                {
+                  "const": "palm_verified"
+                },
+                {
+                  "const": "age_gate_alcohol"
+                },
+                {
+                  "const": "age_gate_gambling"
+                },
+                {
+                  "const": "investment_gate"
+                },
+                {
+                  "const": "humanity_user"
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "presets"
+        ]
+      },
+      "PresetsListResponse": {
+        "type": "object",
+        "properties": {
+          "presets": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "const": "is_human"
+                },
+                {
+                  "const": "is_18_plus"
+                },
+                {
+                  "const": "is_21_plus"
+                },
+                {
+                  "const": "is_accredited_investor"
+                },
+                {
+                  "const": "is_qualified_purchaser"
+                },
+                {
+                  "const": "is_institutional_investor"
+                },
+                {
+                  "const": "palm_verified"
+                },
+                {
+                  "const": "age_gate_alcohol"
+                },
+                {
+                  "const": "age_gate_gambling"
+                },
+                {
+                  "const": "investment_gate"
+                },
+                {
+                  "const": "humanity_user"
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "presets"
+        ]
+      },
+      "UserInfoResponse": {
+        "type": "object",
+        "properties": {
+          "sub": {
+            "type": "string"
+          },
+          "iss": {
+            "type": "string"
+          },
+          "aud": {
+            "type": "string"
+          },
+          "authorization_id": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "humanity_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "wallet_address": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "email": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "email_verified": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "sub",
+          "iss",
+          "aud",
+          "authorization_id",
+          "scopes"
+        ]
+      },
+      "AuthorizeQuery": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "response_type": {
+            "const": "code"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "code_challenge": {
+            "type": "string"
+          },
+          "code_challenge_method": {
+            "const": "S256"
+          },
+          "authorization_id": {
+            "type": "string"
+          },
+          "login_hint": {
+            "type": "string"
+          },
+          "locale": {
+            "type": "string"
+          },
+          "nonce": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_id",
+          "redirect_uri",
+          "response_type",
+          "scope",
+          "code_challenge",
+          "code_challenge_method"
+        ]
+      },
+      "TokenResponse": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "token_type": {
+            "const": "Bearer"
+          },
+          "expires_in": {
+            "type": "number"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "granted_scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "authorization_id": {
+            "type": "string"
+          },
+          "app_scoped_user_id": {
+            "type": "string"
+          },
+          "issued_at": {
+            "type": "string"
+          },
+          "refresh_token": {
+            "type": "string"
+          },
+          "refresh_token_expires_in": {
+            "type": "number"
+          },
+          "refresh_issued_at": {
+            "type": "string"
+          },
+          "id_token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "access_token",
+          "token_type",
+          "expires_in",
+          "scope",
+          "granted_scopes",
+          "authorization_id",
+          "app_scoped_user_id"
+        ]
+      },
+      "ClientUserTokenResponse": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "token_type": {
+            "const": "Bearer"
+          },
+          "expires_in": {
+            "type": "number"
+          },
+          "issued_at": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "authorization_id": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "access_token",
+          "token_type",
+          "expires_in",
+          "issued_at",
+          "user_id",
+          "client_id",
+          "authorization_id",
+          "scopes"
+        ]
+      },
+      "ClientUserTokenRequest": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          },
+          "identifier": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "evm_address": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_id",
+          "client_secret"
+        ]
+      },
+      "AuthorizeContextResponse": {
+        "type": "object",
+        "properties": {
+          "authorization_id": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "app_scoped_user_id": {
+            "type": "string"
+          },
+          "status": {
+            "oneOf": [
+              {
+                "const": "pending_admin"
+              },
+              {
+                "const": "approved"
+              },
+              {
+                "const": "denied"
+              },
+              {
+                "const": "revoked"
+              },
+              {
+                "const": "consumed"
+              }
+            ]
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "requested_scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "granted_scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "code": {
+            "type": "string"
+          },
+          "code_expires_at": {
+            "type": "string"
+          },
+          "nonce": {
+            "type": "string"
+          },
+          "application": {
+            "$ref": "#/components/schemas/AuthorizeApplicationDetail"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthorizeScopeDetail"
+            }
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/AuthorizeContextMetadata"
+          },
+          "policy": {
+            "$ref": "#/components/schemas/AuthorizeContextPolicy"
+          }
+        },
+        "required": [
+          "authorization_id",
+          "client_id",
+          "user_id",
+          "app_scoped_user_id",
+          "status",
+          "redirect_uri",
+          "requested_scopes",
+          "application",
+          "scopes",
+          "metadata",
+          "policy"
+        ]
+      },
+      "AuthorizeApplicationDetail": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "organization_id": {
+            "type": "string"
+          },
+          "status": {
+            "oneOf": [
+              {
+                "const": "revoked"
+              },
+              {
+                "const": "active"
+              }
+            ]
+          },
+          "redirect_uris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created_by_user_id": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "revoked_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_id",
+          "name",
+          "organization_id",
+          "status",
+          "redirect_uris"
+        ]
+      },
+      "AuthorizeScopeDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "implied_scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "is_default": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "display_name"
+        ]
+      },
+      "AuthorizeContextMetadata": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "approved_at": {
+            "type": "string"
+          },
+          "revoked_at": {
+            "type": "string"
+          },
+          "last_token_issued_at": {
+            "type": "string"
+          }
+        },
+        "required": []
+      },
+      "AuthorizeContextPolicy": {
+        "type": "object",
+        "properties": {
+          "requires_palm_verification": {
+            "type": "boolean"
+          },
+          "preset_cache_ttl_seconds": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "requires_palm_verification",
+          "preset_cache_ttl_seconds"
+        ]
+      },
+      "AuthorizeContextQuery": {
+        "type": "object",
+        "properties": {
+          "authorization_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "authorization_id"
+        ]
+      },
+      "AuthorizeResultQuery": {
+        "type": "object",
+        "properties": {
+          "authorization_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "authorization_id"
+        ]
+      },
+      "RevokeResponse": {
+        "type": "object",
+        "properties": {
+          "revoked": {
+            "type": "boolean"
+          },
+          "revoked_count": {
+            "type": "number"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RevokedTokenDetail"
+            }
+          }
+        },
+        "required": [
+          "revoked",
+          "revoked_count"
+        ]
+      },
+      "RevokedTokenDetail": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "oneOf": [
+              {
+                "const": "token"
+              },
+              {
+                "const": "authorization"
+              }
+            ]
+          },
+          "token_type": {
+            "oneOf": [
+              {
+                "const": "refresh_token"
+              },
+              {
+                "const": "access_token"
+              }
+            ]
+          },
+          "authorization_id": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "status": {
+            "oneOf": [
+              {
+                "const": "revoked"
+              },
+              {
+                "const": "not_found"
+              },
+              {
+                "const": "invalid"
+              }
+            ]
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "status"
+        ]
+      },
+      "RevokeRequest": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "token_type_hint": {
+            "oneOf": [
+              {
+                "const": "authorization"
+              },
+              {
+                "const": "refresh_token"
+              },
+              {
+                "const": "access_token"
+              }
+            ]
+          },
+          "authorization_id": {
+            "type": "string"
+          },
+          "cascade": {
+            "oneOf": [
+              {
+                "const": "true"
+              },
+              {
+                "const": "false"
+              },
+              {
+                "const": "1"
+              },
+              {
+                "const": "0"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          },
+          "client_id": {
+            "type": "string"
+          }
+        },
+        "required": []
+      },
+      "AuthorizeApproveResponse": {
+        "type": "object",
+        "properties": {
+          "authorization_id": {
+            "type": "string"
+          },
+          "status": {
+            "const": "approved"
+          },
+          "code": {
+            "type": "string"
+          },
+          "code_expires_at": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "granted_scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "app_scoped_user_id": {
+            "type": "string"
+          },
+          "organization_id": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "authorization_id",
+          "status",
+          "code",
+          "code_expires_at",
+          "scopes",
+          "granted_scopes",
+          "app_scoped_user_id",
+          "organization_id",
+          "redirect_uri",
+          "client_id"
+        ]
+      },
+      "AuthorizeApproveRequest": {
+        "type": "object",
+        "properties": {
+          "authorization_id": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "authorization_id"
+        ]
+      },
+      "AuthorizeDenyResponse": {
+        "type": "object",
+        "properties": {
+          "authorization_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "authorization_id",
+          "status",
+          "redirect_uri",
+          "client_id"
+        ]
+      },
+      "AuthorizeDenyRequest": {
+        "type": "object",
+        "properties": {
+          "authorization_id": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "authorization_id"
+        ]
+      },
+      "HealthLivenessResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "const": "ok"
+          },
+          "uptime": {
+            "type": "number"
+          },
+          "version": {
+            "type": "string"
+          },
+          "commit": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "uptime",
+          "version",
+          "commit",
+          "timestamp"
+        ]
+      },
+      "HealthReadinessResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "oneOf": [
+              {
+                "const": "ready"
+              },
+              {
+                "const": "not_ready"
+              }
+            ]
+          },
+          "checks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HealthReadinessCheck"
+            }
+          }
+        },
+        "required": [
+          "status",
+          "checks"
+        ]
+      },
+      "HealthReadinessCheck": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "ok": {
+            "type": "boolean"
+          },
+          "details": {
+            "$ref": "#/components/schemas/Recordstringstringnumberbooleannull.o1"
+          }
+        },
+        "required": [
+          "name",
+          "ok"
+        ]
+      },
+      "Recordstringstringnumberbooleannull.o1": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "description": "Construct a type with a set of properties K of type T",
+        "additionalProperties": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "ExamplePingResponse": {
+        "type": "object",
+        "properties": {
+          "pong": {
+            "const": true
+          },
+          "at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "pong",
+          "at"
+        ]
+      },
+      "ExampleEchoResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/Recordstringstringnumberbooleannull.o2"
+          },
+          "at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "data",
+          "at"
+        ]
+      },
+      "Recordstringstringnumberbooleannull.o2": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "description": "Construct a type with a set of properties K of type T",
+        "additionalProperties": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "ExampleEchoRequest": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "OpenIdConfiguration": {
+        "type": "object",
+        "properties": {
+          "issuer": {
+            "type": "string"
+          },
+          "authorization_endpoint": {
+            "type": "string"
+          },
+          "token_endpoint": {
+            "type": "string"
+          },
+          "userinfo_endpoint": {
+            "type": "string"
+          },
+          "jwks_uri": {
+            "type": "string"
+          },
+          "response_types_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "grant_types_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scopes_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "code_challenge_methods_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "token_endpoint_auth_methods_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "subject_types_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "claim_types_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "claims_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "id_token_signing_alg_values_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "revocation_endpoint": {
+            "type": "string"
+          },
+          "revocation_endpoint_auth_methods_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "issuer",
+          "authorization_endpoint",
+          "token_endpoint",
+          "userinfo_endpoint",
+          "jwks_uri",
+          "response_types_supported",
+          "grant_types_supported",
+          "scopes_supported",
+          "code_challenge_methods_supported",
+          "token_endpoint_auth_methods_supported",
+          "subject_types_supported",
+          "claim_types_supported",
+          "claims_supported",
+          "id_token_signing_alg_values_supported",
+          "revocation_endpoint"
+        ]
+      },
+      "JsonWebKeySet": {
+        "type": "object",
+        "properties": {
+          "keys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JwksKey"
+            }
+          }
+        },
+        "required": [
+          "keys"
+        ]
+      },
+      "JwksKey": {
+        "type": "object",
+        "properties": {
+          "kty": {
+            "type": "string"
+          },
+          "use": {
+            "const": "sig"
+          },
+          "kid": {
+            "type": "string"
+          },
+          "alg": {
+            "type": "string"
+          },
+          "n": {
+            "type": "string"
+          },
+          "e": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kty",
+          "use",
+          "kid",
+          "alg",
+          "n",
+          "e"
+        ]
+      },
+      "HpConfiguration": {
+        "type": "object",
+        "properties": {
+          "issuer": {
+            "type": "string"
+          },
+          "authorization_endpoint": {
+            "type": "string"
+          },
+          "token_endpoint": {
+            "type": "string"
+          },
+          "revoke_endpoint": {
+            "type": "string"
+          },
+          "userinfo_endpoint": {
+            "type": "string"
+          },
+          "jwks_uri": {
+            "type": "string"
+          },
+          "consent_presets_endpoint": {
+            "type": "string"
+          },
+          "presets_endpoint": {
+            "type": "string"
+          },
+          "presets_batch_endpoint": {
+            "type": "string"
+          },
+          "credentials_endpoint": {
+            "type": "string"
+          },
+          "authorizations_endpoint": {
+            "type": "string"
+          },
+          "hp_configuration_endpoint": {
+            "type": "string"
+          },
+          "scopes_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scopes_catalog": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HpScopeDescriptor"
+            }
+          },
+          "grant_types_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "code_challenge_methods_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "response_types_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "token_endpoint_auth_methods_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "subject_types_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "claim_types_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "claims_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "id_token_signing_alg_values_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "presets_available": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HpConfigurationPreset"
+            }
+          },
+          "rate_limit_default": {
+            "type": "number"
+          },
+          "rate_limit_unit": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "issuer",
+          "authorization_endpoint",
+          "token_endpoint",
+          "revoke_endpoint",
+          "userinfo_endpoint",
+          "jwks_uri",
+          "consent_presets_endpoint",
+          "presets_endpoint",
+          "presets_batch_endpoint",
+          "credentials_endpoint",
+          "authorizations_endpoint",
+          "hp_configuration_endpoint",
+          "scopes_supported",
+          "scopes_catalog",
+          "grant_types_supported",
+          "code_challenge_methods_supported",
+          "response_types_supported",
+          "token_endpoint_auth_methods_supported",
+          "subject_types_supported",
+          "claim_types_supported",
+          "claims_supported",
+          "id_token_signing_alg_values_supported",
+          "presets_available",
+          "rate_limit_default",
+          "rate_limit_unit"
+        ]
+      },
+      "HpScopeDescriptor": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "implied_scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "is_default": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "display_name",
+          "description",
+          "category"
+        ]
+      },
+      "HpConfigurationPreset": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "oneOf": [
+              {
+                "const": "is_human"
+              },
+              {
+                "const": "is_18_plus"
+              },
+              {
+                "const": "is_21_plus"
+              },
+              {
+                "const": "is_accredited_investor"
+              },
+              {
+                "const": "is_qualified_purchaser"
+              },
+              {
+                "const": "is_institutional_investor"
+              },
+              {
+                "const": "palm_verified"
+              },
+              {
+                "const": "age_gate_alcohol"
+              },
+              {
+                "const": "age_gate_gambling"
+              },
+              {
+                "const": "investment_gate"
+              },
+              {
+                "const": "humanity_user"
+              }
+            ]
+          },
+          "scope": {
+            "type": "string"
+          },
+          "type": {
+            "oneOf": [
+              {
+                "const": "boolean"
+              },
+              {
+                "const": "enum"
+              },
+              {
+                "const": "bundled"
+              }
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "consent_text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "scope",
+          "type",
+          "description",
+          "consent_text"
+        ]
+      },
+      "AuthLogoutResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": true
+          }
+        },
+        "required": [
+          "ok"
+        ]
+      },
+      "AuthLogoutRequest": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": []
+      },
+      "AuthMeResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/AccessClaims"
+          }
+        },
+        "required": [
+          "user"
+        ]
+      },
+      "AccessClaims": {
+        "type": "object",
+        "properties": {
+          "sub": {
+            "type": "string"
+          },
+          "iss": {
+            "type": "string"
+          },
+          "aud": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tenantId": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "iat": {
+            "type": "number"
+          },
+          "exp": {
+            "type": "number"
+          },
+          "jti": {
+            "type": "string"
+          },
+          "typ": {
+            "const": "access"
+          }
+        },
+        "required": [
+          "sub",
+          "iss",
+          "aud",
+          "roles",
+          "iat",
+          "exp",
+          "jti",
+          "typ"
+        ]
+      },
+      "CreateStandardAccessRequestResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "const": "pending"
+          }
+        },
+        "required": [
+          "id",
+          "status"
+        ]
+      },
+      "AccessAcceptDeveloperResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "const": true
+          }
+        },
+        "required": [
+          "ok"
+        ]
+      },
+      "AcceptDeveloperRequestBody": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId"
+        ]
+      },
+      "AccessListResponse": {
+        "type": "object",
+        "properties": {
+          "access": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "const": "standard"
+                },
+                {
+                  "const": "developer"
+                },
+                {
+                  "const": "admin"
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "access"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "x-samchon-emended-v4": true
+}
