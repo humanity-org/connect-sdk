@@ -1,6 +1,21 @@
 import type { IsoDateString } from './common';
 
-export type AccessKey = 'standard' | 'developer' | 'admin';
+/**
+ * Access key values as a const object.
+ * Use `AccessKey.STANDARD`, `AccessKey.DEVELOPER`, or `AccessKey.ADMIN` for type-safe references.
+ * String literals ('standard', 'developer', 'admin') are also valid and fully compatible.
+ */
+export const AccessKey = {
+  STANDARD: 'standard',
+  DEVELOPER: 'developer',
+  ADMIN: 'admin',
+} as const;
+
+/**
+ * Union type of all valid access key string values.
+ * Accepts both `AccessKey.STANDARD` and literal `'standard'`.
+ */
+export type AccessKey = (typeof AccessKey)[keyof typeof AccessKey];
 
 export type AccessScope = {
   orgId?: string;
