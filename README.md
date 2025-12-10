@@ -7,13 +7,13 @@
 Until the package is published, add it to your project via a workspace reference or local path:
 
 ```bash
-npm install /path/to/hp-public-dev-api/sdk
+npm install @humanity-org/connect-sdk
 ```
 
 ## Quick Start
 
 ```ts
-import { HumanitySDK } from '@humanity/sdk';
+import { HumanitySDK } from '@humanity-org/connect-sdk';
 
 const sdk = new HumanitySDK({
   clientId: process.env.HUMANITY_CLIENT_ID!,

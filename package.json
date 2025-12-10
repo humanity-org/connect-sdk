@@ -1,5 +1,5 @@
 {
-  "name": "@humanity-org/sdk",
+  "name": "@humanity-org/connect-sdk",
   "version": "0.0.2",
   "description": "TypeScript SDK for the Humanity Public Dev API",
   "license": "UNLICENSED",
@@ -12,8 +12,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/humanity-org/humoongate.git",
-    "directory": "hp-public-dev-api/sdk"
+    "url": "https://github.com/humanity-org/connect-sdk.git",
+    "directory": "./"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
