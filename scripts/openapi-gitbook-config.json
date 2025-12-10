@@ -1,0 +1,69 @@
+{
+  "$schema": "./openapi-gitbook-config.schema.json",
+  "tagGroups": [
+    {
+      "name": "API Reference",
+      "tags": [
+        "OAuth & Consent",
+        "Presets",
+        "User Info",
+        "Status & Credentials",
+        "Discovery",
+        "Auth",
+        "Access Control",
+        "Health",
+        "Examples"
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "OAuth & Consent",
+      "description": "OAuth 2.0 authorization endpoints including PKCE flow, token exchange, consent management, and token revocation.",
+      "patterns": ["/oauth/", "/consent/"]
+    },
+    {
+      "name": "Presets",
+      "description": "Verification presets for identity attributes like age verification, humanity verification, and investor status.",
+      "patterns": ["/presets"]
+    },
+    {
+      "name": "User Info",
+      "description": "User information and profile endpoints for retrieving authenticated user data.",
+      "patterns": ["/userinfo"]
+    },
+    {
+      "name": "Status & Credentials",
+      "description": "Endpoints for checking credential status and authorization updates.",
+      "patterns": ["/credentials", "/authorizations"]
+    },
+    {
+      "name": "Discovery",
+      "description": "OpenID Connect and Humanity Protocol discovery endpoints including JWKS and configuration.",
+      "patterns": ["/.well-known/"]
+    },
+    {
+      "name": "Auth",
+      "description": "Authentication endpoints for session management and logout.",
+      "patterns": ["/auth/"]
+    },
+    {
+      "name": "Access Control",
+      "description": "Access request and developer access management endpoints.",
+      "patterns": ["/access/"]
+    },
+    {
+      "name": "Health",
+      "description": "Health check and readiness probe endpoints for monitoring.",
+      "patterns": ["/health", "/ready"]
+    },
+    {
+      "name": "Examples",
+      "description": "Example endpoints for testing and demonstration purposes.",
+      "patterns": ["/_example/"]
+    }
+  ],
+  "defaultTag": "Other",
+  "input": "openapi.json",
+  "output": "openapi-gitbook.json"
+}
