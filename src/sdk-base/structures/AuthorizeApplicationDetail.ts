@@ -2,7 +2,7 @@ export type AuthorizeApplicationDetail = {
   client_id: string;
   name: string;
   organization_id: string;
-  status: "revoked" | "active";
+  status: "active" | "revoked";
   redirect_uris: string[];
   created_by_user_id?: undefined | string;
   created_at?: undefined | string;

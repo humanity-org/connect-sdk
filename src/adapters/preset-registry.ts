@@ -8,7 +8,15 @@ export interface PresetDescriptor {
   developerKey: DeveloperPresetKey;
   presetName: string;
   scope: string;
-  type?: 'boolean' | 'enum' | 'bundled';
+  type?: | "string"
+  | "number"
+  | "boolean"
+  | "integer"
+  | "date"
+  | "datetime"
+  | "array"
+  | "enum"
+  | "bundled";
   consentText?: string;
   description?: string;
   impliedScopes?: string[];

@@ -74,10 +74,6 @@ export interface TokenResult {
   raw: OauthTokenResponse;
   rateLimit?: RateLimitInfo;
 }
-export interface RefreshAccessTokenOptions {
-  scope?: string | string[];
-  clientId?: string;
-}
 
 
 export interface RevokeTokenOptions {
@@ -102,12 +98,25 @@ export interface VerifyPresetOptions {
   preset: DeveloperPresetKey;
 }
 
+export interface ExchangeCodeOptions {
+  code: string;
+  codeVerifier: string;
+}
+
+export interface RefreshTokenOptions {
+  refreshToken: string;
+  scope?: string | string[];
+  clientId?: string;
+}
+
 export interface PollCredentialUpdatesOptions {
+  accessToken: string;
   updatedSince?: string | Date;
   limit?: number;
 }
 
 export interface PollAuthorizationUpdatesOptions {
+  accessToken: string;
   updatedSince?: string | Date;
   status?: 'revoked' | 'active';
   limit?: number;
@@ -232,12 +241,18 @@ export class HumanitySDK {
     };
   }
 
-  async exchangeCodeForToken(code: string, codeVerifier: string): Promise<TokenResult> {
+  async exchangeCodeForToken(options: ExchangeCodeOptions): Promise<TokenResult> {
+    if (!options.code) {
+      throw new Error('HumanitySDK.exchangeCodeForToken requires a code');
+    }
+    if (!options.codeVerifier) {
+      throw new Error('HumanitySDK.exchangeCodeForToken requires a codeVerifier');
+    }
     const connection = this.connectionFactory.createRootConnection();
     const body: OauthTokenRequest = {
       grant_type: 'authorization_code',
-      code,
-      code_verifier: codeVerifier,
+      code: options.code,
+      code_verifier: options.codeVerifier,
       redirect_uri: this.config.redirectUri,
       client_id: this.config.clientId,
     };
@@ -247,12 +262,9 @@ export class HumanitySDK {
     return this.mapTokenResponse(data, rateLimit);
   }
 
-  async refreshAccessToken(
-    refreshToken: string,
-    options: RefreshAccessTokenOptions = {},
-  ): Promise<TokenResult> {
-    if (!refreshToken) {
-      throw new Error('HumanitySDK.refreshAccessToken requires a refresh token');
+  async refreshAccessToken(options: RefreshTokenOptions): Promise<TokenResult> {
+    if (!options.refreshToken) {
+      throw new Error('HumanitySDK.refreshAccessToken requires a refreshToken');
     }
     const connection = this.connectionFactory.createRootConnection();
     const scope =
@@ -263,7 +275,7 @@ export class HumanitySDK {
           : undefined;
     const body = {
       grant_type: 'refresh_token',
-      refresh_token: refreshToken,
+      refresh_token: options.refreshToken,
       client_id: options.clientId ?? this.config.clientId,
       scope,
     } as unknown as OauthTokenRequest;
@@ -365,15 +377,15 @@ export class HumanitySDK {
     return this.mapClientUserTokenResponse(data, rateLimit);
   }
 
-  async verifyPreset(preset: DeveloperPresetKey, accessToken: string): Promise<PresetCheckResult>;
-  async verifyPreset(options: VerifyPresetOptions): Promise<PresetCheckResult>;
-  async verifyPreset(
-    arg1: DeveloperPresetKey | VerifyPresetOptions,
-    arg2?: string,
-  ): Promise<PresetCheckResult> {
-    const { preset, accessToken } = this.normalizeVerifyPresetArgs(arg1, arg2);
-    const presetName = this.scopesAdapter.toPresetName(preset);
-    const connection = this.connectionFactory.createCoreConnection(accessToken);
+  async verifyPreset(options: VerifyPresetOptions): Promise<PresetCheckResult> {
+    if (!options.preset) {
+      throw new Error('HumanitySDK.verifyPreset requires a preset identifier');
+    }
+    if (!options.accessToken) {
+      throw new Error('HumanitySDK.verifyPreset requires an accessToken');
+    }
+    const presetName = this.scopesAdapter.toPresetName(options.preset);
+    const connection = this.connectionFactory.createCoreConnection(options.accessToken);
     const { data, rateLimit } = await this.executeWithRateLimit(connection, (conn) =>
       api.functional.presets.getPreset(conn, presetName),
     );
@@ -381,63 +393,27 @@ export class HumanitySDK {
     return this.presetsAdapter.fromSingleResponse(wrapped, { rateLimit });
   }
 
-  async verifyPresets(
-    presets: DeveloperPresetKey[],
-    accessToken: string,
-  ): Promise<PresetBatchResult>;
-  async verifyPresets(options: VerifyPresetsOptions): Promise<PresetBatchResult>;
-  async verifyPresets(
-    arg1: DeveloperPresetKey[] | VerifyPresetsOptions,
-    arg2?: string,
-  ): Promise<PresetBatchResult> {
-    const { presets, accessToken } = this.normalizeVerifyPresetsArgs(arg1, arg2);
-    if (!presets.length) {
+  async verifyPresets(options: VerifyPresetsOptions): Promise<PresetBatchResult> {
+    if (!Array.isArray(options.presets)) {
+      throw new Error('HumanitySDK.verifyPresets requires an array of presets');
+    }
+    if (!options.accessToken) {
+      throw new Error('HumanitySDK.verifyPresets requires an accessToken');
+    }
+    if (!options.presets.length) {
       throw new Error('At least one preset is required for verification');
     }
-    if (presets.length > 10) {
+    if (options.presets.length > 10) {
       throw new Error('A maximum of 10 presets can be verified in a single request');
     }
     const body: PresetsVerifyRequest = {
-      presets: presets.map((preset) => this.scopesAdapter.toPresetName(preset)) as PresetsVerifyRequest['presets'],
+      presets: options.presets.map((preset) => this.scopesAdapter.toPresetName(preset)) as PresetsVerifyRequest['presets'],
     };
-    const connection = this.connectionFactory.createCoreConnection(accessToken);
+    const connection = this.connectionFactory.createCoreConnection(options.accessToken);
     const { data, rateLimit } = await this.executeWithRateLimit(connection, (conn) =>
       api.functional.presets.batch(conn, body),
     );
     return this.presetsAdapter.fromBatchResponse(data, { rateLimit });
-  }
-
-  async pollCredentialUpdates(
-    accessToken: string,
-    options: PollCredentialUpdatesOptions = {},
-  ): Promise<CredentialUpdates> {
-    this.validateLimit(options.limit);
-    const query: StatusCredentialsQuery = this.statusAdapter.normalizeCredentialsQuery({
-      updated_since: this.toIsoString(options.updatedSince),
-      limit: options.limit,
-    });
-    const connection = this.connectionFactory.createCoreConnection(accessToken);
-    const { data, rateLimit } = await this.executeWithRateLimit(connection, (conn) =>
-      api.functional.credentials(conn, query),
-    );
-    return this.statusAdapter.fromCredentialsResponse(data, { rateLimit });
-  }
-
-  async pollAuthorizationUpdates(
-    accessToken: string,
-    options: PollAuthorizationUpdatesOptions = {},
-  ): Promise<AuthorizationUpdates> {
-    this.validateLimit(options.limit);
-    const query: StatusAuthorizationsQuery = this.statusAdapter.normalizeAuthorizationsQuery({
-      status: options.status,
-      updated_since: this.toIsoString(options.updatedSince),
-      limit: options.limit,
-    });
-    const connection = this.connectionFactory.createCoreConnection(accessToken);
-    const { data, rateLimit } = await this.executeWithRateLimit(connection, (conn) =>
-      api.functional.authorizations(conn, query),
-    );
-    return this.statusAdapter.fromAuthorizationsResponse(data, { rateLimit });
   }
 
   async getConfiguration(forceRefresh = false): Promise<DiscoveryConfiguration> {
@@ -461,24 +437,6 @@ export class HumanitySDK {
   clearCache(): void {
     this.configurationCache = undefined;
     this.configurationCacheTimestamp = undefined;
-  }
-
-  async healthcheck(): Promise<HealthLivenessResponse> {
-    const connection = this.connectionFactory.createHealthConnection();
-    try {
-      return await api.functional.health.healthcheck(connection);
-    } catch (error) {
-      this.rethrowAsHumanityError(error);
-    }
-  }
-
-  async readiness(): Promise<HealthReadinessResponse> {
-    const connection = this.connectionFactory.createHealthConnection();
-    try {
-      return await api.functional.ready.readiness(connection);
-    } catch (error) {
-      this.rethrowAsHumanityError(error);
-    }
   }
 
   private composeAuthorizationScopes(scopes: string[]): string[] {
@@ -579,48 +537,6 @@ export class HumanitySDK {
       token: `${baseApiUrl}/oauth/token`,
       revoke: `${baseApiUrl}/oauth/revoke`,
     };
-  }
-
-  private normalizeVerifyPresetArgs(
-    arg1: DeveloperPresetKey | VerifyPresetOptions,
-    arg2?: string,
-  ): { preset: DeveloperPresetKey; accessToken: string } {
-    if (typeof arg1 === 'string') {
-      if (!arg2) {
-        throw new Error(
-          'HumanitySDK.verifyPreset requires an access token when using positional arguments',
-        );
-      }
-      return { preset: arg1, accessToken: arg2 };
-    }
-    if (!arg1?.preset) {
-      throw new Error('HumanitySDK.verifyPreset requires a preset identifier');
-    }
-    if (!arg1.accessToken) {
-      throw new Error('HumanitySDK.verifyPreset requires an access token');
-    }
-    return { preset: arg1.preset, accessToken: arg1.accessToken };
-  }
-
-  private normalizeVerifyPresetsArgs(
-    arg1: DeveloperPresetKey[] | VerifyPresetsOptions,
-    arg2?: string,
-  ): { presets: DeveloperPresetKey[]; accessToken: string } {
-    if (Array.isArray(arg1)) {
-      if (!arg2) {
-        throw new Error(
-          'HumanitySDK.verifyPresets requires an access token when using positional arguments',
-        );
-      }
-      return { presets: [...arg1], accessToken: arg2 };
-    }
-    if (!Array.isArray(arg1?.presets)) {
-      throw new Error('HumanitySDK.verifyPresets requires an array of presets');
-    }
-    if (!arg1.accessToken) {
-      throw new Error('HumanitySDK.verifyPresets requires an access token');
-    }
-    return { presets: [...arg1.presets], accessToken: arg1.accessToken };
   }
 
   private async executeWithRateLimit<T>(

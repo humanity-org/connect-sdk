@@ -4,6 +4,8 @@ export {
   type AuthorizationUrlOptions,
   type AuthorizationUrlResult,
   type TokenResult,
+  type ExchangeCodeOptions,
+  type RefreshTokenOptions,
   type RevokeTokenOptions,
   type RevokeTokenResult,
   type VerifyPresetsOptions,

@@ -1,21 +1,64 @@
-import type { Recordstringstringnumberbooleannull } from "./Recordstringstringnumberbooleannull";
+import type { Recordstringunknown } from "./Recordstringunknown";
 
 export type PresetResult = {
   preset:
+    | "humanity_uuid"
+    | "humanity_score"
     | "is_human"
-    | "is_18_plus"
-    | "is_21_plus"
-    | "is_accredited_investor"
-    | "is_qualified_purchaser"
-    | "is_institutional_investor"
+    | "country_of_residence"
+    | "age"
+    | "address_postal_code"
+    | "legal_name"
+    | "residency_region"
+    | "age_over_18"
+    | "nationality"
+    | "address_full"
+    | "date_of_birth"
+    | "email"
+    | "phone"
+    | "age_over_21"
+    | "social_accounts"
+    | "wallet_addresses"
+    | "primary_wallet_address"
+    | "kyc_passed"
+    | "is_high_risk"
+    | "kyc_level"
+    | "sanctions_clear"
+    | "tax_residency"
+    | "kyc_last_updated_at"
+    | "tax_id"
+    | "document_type"
+    | "aml_screening_passed"
+    | "pep_status"
+    | "document_number"
+    | "employment_status"
+    | "document_country"
+    | "geo_blocked_region"
+    | "document_expiry_date"
+    | "net_worth_above_10k"
+    | "net_worth_above_100k"
+    | "total_liabilities"
+    | "net_worth_total"
+    | "tradfi_balance"
+    | "onchain_balance"
+    | "cex_balance"
+    | "investment_account_balance"
+    | "retirement_account_balance"
+    | "credit_card_balance"
+    | "bank_balance_total"
+    | "trading_frequency_score"
+    | "verified_income"
+    | "loan_balance_total"
     | "palm_verified"
-    | "age_gate_alcohol"
-    | "age_gate_gambling"
-    | "investment_gate"
-    | "humanity_user";
+    | "humanity_user"
+    | "proof_of_assets"
+    | "proof_of_investments"
+    | "proof_of_mortgage"
+    | "proof_of_residency"
+    | "proof_of_retirement";
   value: boolean;
   status: "valid" | "expired" | "pending" | "unavailable";
   expires_at: string;
   verified_at?: undefined | string;
-  evidence?: undefined | Recordstringstringnumberbooleannull;
+  evidence?: undefined | Recordstringunknown;
 };

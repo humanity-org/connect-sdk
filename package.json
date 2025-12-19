@@ -1,9 +1,9 @@
 {
   "name": "@humanity-org/connect-sdk",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "TypeScript SDK for the Humanity Public Dev API",
   "license": "UNLICENSED",
-  "author": "Humanity, Inc.",
+  "author": "Humanity Protocol",
   "private": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,7 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
-    "access": "restricted"
+    "access": "public"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",

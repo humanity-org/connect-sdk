@@ -3,5 +3,5 @@ import type { Recordstringstringnumberbooleannull } from "./Recordstringstringnu
 export type HealthReadinessCheck = {
   name: string;
   ok: boolean;
-  details?: undefined | Recordstringstringnumberbooleannull.o2;
+  details?: undefined | Recordstringstringnumberbooleannull;
 };

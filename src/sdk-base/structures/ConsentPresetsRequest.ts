@@ -4,14 +4,15 @@ export type ConsentPresetsRequest = {
       | "is_human"
       | "is_18_plus"
       | "is_21_plus"
-      | "is_accredited_investor"
-      | "is_qualified_purchaser"
-      | "is_institutional_investor"
+      | "net_worth_over_10k"
+      | "net_worth_over_100k"
       | "palm_verified"
-      | "age_gate_alcohol"
-      | "age_gate_gambling"
-      | "investment_gate"
-      | "humanity_user";
+      | "humanity_user"
+      | "proof_of_assets"
+      | "proof_of_investments"
+      | "proof_of_mortgage"
+      | "proof_of_residency"
+      | "proof_of_retirement";
     value: string | number | boolean;
   }[];
   computed_at: string;

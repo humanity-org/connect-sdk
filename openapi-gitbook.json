@@ -12,139 +12,6 @@
     "description": "NestJS CQRS + TDD base for Humanity Public Dev API"
   },
   "paths": {
-    "/credentials": {
-      "get": {
-        "tags": [
-          "Status & Credentials"
-        ],
-        "parameters": [
-          {
-            "name": "updated_since",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "required": false
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "number"
-            },
-            "required": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CredentialsResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "credentials"
-        ],
-        "x-samchon-controller": "StatusController"
-      }
-    },
-    "/authorizations": {
-      "get": {
-        "tags": [
-          "Status & Credentials"
-        ],
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "schema": {
-              "oneOf": [
-                {
-                  "const": "active"
-                },
-                {
-                  "const": "revoked"
-                }
-              ]
-            },
-            "required": false
-          },
-          {
-            "name": "updated_since",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "required": false
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "number"
-            },
-            "required": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthorizationsResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "authorizations"
-        ],
-        "x-samchon-controller": "StatusController"
-      }
-    },
-    "/consent/presets": {
-      "post": {
-        "tags": [
-          "OAuth & Consent"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConsentPresetsRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConsentPresetsResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "consent",
-          "presets",
-          "consent"
-        ],
-        "x-samchon-controller": "PresetsController"
-      }
-    },
     "/presets/{preset_name}": {
       "get": {
         "tags": [
@@ -636,152 +503,6 @@
         "x-samchon-controller": "OauthController"
       }
     },
-    "/oauth/authorize/deny": {
-      "post": {
-        "tags": [
-          "OAuth & Consent"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuthorizeDenyRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthorizeDenyResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "oauth",
-          "authorize",
-          "deny"
-        ],
-        "x-samchon-controller": "OauthController"
-      }
-    },
-    "/health": {
-      "get": {
-        "tags": [
-          "Health"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HealthLivenessResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "health",
-          "healthcheck"
-        ],
-        "x-samchon-controller": "HealthController"
-      }
-    },
-    "/ready": {
-      "get": {
-        "tags": [
-          "Health"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HealthReadinessResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "ready",
-          "readiness"
-        ],
-        "x-samchon-controller": "HealthController"
-      }
-    },
-    "/_example/ping": {
-      "get": {
-        "tags": [
-          "Examples"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExamplePingResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "_example",
-          "ping"
-        ],
-        "x-samchon-controller": "ExamplesController"
-      }
-    },
-    "/_example/echo": {
-      "post": {
-        "tags": [
-          "Examples"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ExampleEchoRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExampleEchoResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "_example",
-          "echo"
-        ],
-        "x-samchon-controller": "ExamplesController"
-      }
-    },
     "/.well-known/openid-configuration": {
       "get": {
         "tags": [
@@ -859,471 +580,176 @@
         ],
         "x-samchon-controller": "DiscoveryController"
       }
-    },
-    "/auth/logout": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuthLogoutRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthLogoutResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "auth",
-          "logout"
-        ],
-        "x-samchon-controller": "AuthController"
-      }
-    },
-    "/auth/me": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthMeResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "auth",
-          "me"
-        ],
-        "x-samchon-controller": "AuthController"
-      }
-    },
-    "/access/requests/standard": {
-      "post": {
-        "tags": [
-          "Access Control"
-        ],
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateStandardAccessRequestResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "access",
-          "requests",
-          "standard",
-          "createStandard"
-        ],
-        "x-samchon-controller": "AccessController"
-      }
-    },
-    "/access/developer/accept": {
-      "post": {
-        "tags": [
-          "Access Control"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AcceptDeveloperRequestBody"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AccessAcceptDeveloperResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "access",
-          "developer",
-          "accept",
-          "acceptDeveloper"
-        ],
-        "x-samchon-controller": "AccessController"
-      }
-    },
-    "/access/me": {
-      "get": {
-        "tags": [
-          "Access Control"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AccessListResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-samchon-accessor": [
-          "access",
-          "me",
-          "myAccess"
-        ],
-        "x-samchon-controller": "AccessController"
-      }
     }
   },
   "components": {
     "schemas": {
-      "CredentialsResponse": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CredentialItem"
-            }
-          },
-          "last_modified": {
-            "type": "string"
-          },
-          "has_more": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "items"
-        ]
-      },
-      "CredentialItem": {
-        "type": "object",
-        "properties": {
-          "user_id": {
-            "type": "string"
-          },
-          "preset": {
-            "oneOf": [
-              {
-                "const": "is_human"
-              },
-              {
-                "const": "is_18_plus"
-              },
-              {
-                "const": "is_21_plus"
-              },
-              {
-                "const": "is_accredited_investor"
-              },
-              {
-                "const": "is_qualified_purchaser"
-              },
-              {
-                "const": "is_institutional_investor"
-              },
-              {
-                "const": "palm_verified"
-              },
-              {
-                "const": "age_gate_alcohol"
-              },
-              {
-                "const": "age_gate_gambling"
-              },
-              {
-                "const": "investment_gate"
-              },
-              {
-                "const": "humanity_user"
-              }
-            ]
-          },
-          "value": {
-            "type": "boolean"
-          },
-          "status": {
-            "oneOf": [
-              {
-                "const": "valid"
-              },
-              {
-                "const": "expired"
-              },
-              {
-                "const": "pending"
-              },
-              {
-                "const": "unavailable"
-              }
-            ]
-          },
-          "expires_at": {
-            "type": "string"
-          },
-          "updated_at": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "user_id",
-          "preset",
-          "value",
-          "status",
-          "expires_at",
-          "updated_at"
-        ]
-      },
-      "CredentialsQuery": {
-        "type": "object",
-        "properties": {
-          "updated_since": {
-            "type": "string"
-          },
-          "limit": {
-            "type": "number"
-          }
-        },
-        "required": []
-      },
-      "AuthorizationsResponse": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AuthorizationUpdate"
-            }
-          },
-          "last_modified": {
-            "type": "string"
-          },
-          "has_more": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "items"
-        ]
-      },
-      "AuthorizationUpdate": {
-        "type": "object",
-        "properties": {
-          "authorization_id": {
-            "type": "string"
-          },
-          "organization_id": {
-            "type": "string"
-          },
-          "app_scoped_user_id": {
-            "type": "string"
-          },
-          "status": {
-            "oneOf": [
-              {
-                "const": "active"
-              },
-              {
-                "const": "revoked"
-              }
-            ]
-          },
-          "updated_at": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "authorization_id",
-          "organization_id",
-          "app_scoped_user_id",
-          "status",
-          "updated_at"
-        ]
-      },
-      "AuthorizationsQuery": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "oneOf": [
-              {
-                "const": "active"
-              },
-              {
-                "const": "revoked"
-              }
-            ]
-          },
-          "updated_since": {
-            "type": "string"
-          },
-          "limit": {
-            "type": "number"
-          }
-        },
-        "required": []
-      },
-      "ConsentPresetsResponse": {
-        "type": "object",
-        "properties": {
-          "accepted": {
-            "type": "boolean"
-          },
-          "expires_at": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "accepted"
-        ]
-      },
-      "ConsentPresetsRequest": {
-        "type": "object",
-        "properties": {
-          "presets": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "oneOf": [
-                    {
-                      "const": "is_human"
-                    },
-                    {
-                      "const": "is_18_plus"
-                    },
-                    {
-                      "const": "is_21_plus"
-                    },
-                    {
-                      "const": "is_accredited_investor"
-                    },
-                    {
-                      "const": "is_qualified_purchaser"
-                    },
-                    {
-                      "const": "is_institutional_investor"
-                    },
-                    {
-                      "const": "palm_verified"
-                    },
-                    {
-                      "const": "age_gate_alcohol"
-                    },
-                    {
-                      "const": "age_gate_gambling"
-                    },
-                    {
-                      "const": "investment_gate"
-                    },
-                    {
-                      "const": "humanity_user"
-                    }
-                  ]
-                },
-                "value": {
-                  "oneOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "boolean"
-                    }
-                  ]
-                }
-              },
-              "required": [
-                "name",
-                "value"
-              ]
-            }
-          },
-          "computed_at": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "presets",
-          "computed_at"
-        ]
-      },
       "PresetResult": {
         "type": "object",
         "properties": {
           "preset": {
             "oneOf": [
               {
+                "const": "humanity_uuid"
+              },
+              {
+                "const": "humanity_score"
+              },
+              {
                 "const": "is_human"
               },
               {
-                "const": "is_18_plus"
+                "const": "country_of_residence"
               },
               {
-                "const": "is_21_plus"
+                "const": "age"
               },
               {
-                "const": "is_accredited_investor"
+                "const": "address_postal_code"
               },
               {
-                "const": "is_qualified_purchaser"
+                "const": "legal_name"
               },
               {
-                "const": "is_institutional_investor"
+                "const": "residency_region"
+              },
+              {
+                "const": "age_over_18"
+              },
+              {
+                "const": "nationality"
+              },
+              {
+                "const": "address_full"
+              },
+              {
+                "const": "date_of_birth"
+              },
+              {
+                "const": "email"
+              },
+              {
+                "const": "phone"
+              },
+              {
+                "const": "age_over_21"
+              },
+              {
+                "const": "social_accounts"
+              },
+              {
+                "const": "wallet_addresses"
+              },
+              {
+                "const": "primary_wallet_address"
+              },
+              {
+                "const": "kyc_passed"
+              },
+              {
+                "const": "is_high_risk"
+              },
+              {
+                "const": "kyc_level"
+              },
+              {
+                "const": "sanctions_clear"
+              },
+              {
+                "const": "tax_residency"
+              },
+              {
+                "const": "kyc_last_updated_at"
+              },
+              {
+                "const": "tax_id"
+              },
+              {
+                "const": "document_type"
+              },
+              {
+                "const": "aml_screening_passed"
+              },
+              {
+                "const": "pep_status"
+              },
+              {
+                "const": "document_number"
+              },
+              {
+                "const": "employment_status"
+              },
+              {
+                "const": "document_country"
+              },
+              {
+                "const": "geo_blocked_region"
+              },
+              {
+                "const": "document_expiry_date"
+              },
+              {
+                "const": "net_worth_above_10k"
+              },
+              {
+                "const": "net_worth_above_100k"
+              },
+              {
+                "const": "total_liabilities"
+              },
+              {
+                "const": "net_worth_total"
+              },
+              {
+                "const": "tradfi_balance"
+              },
+              {
+                "const": "onchain_balance"
+              },
+              {
+                "const": "cex_balance"
+              },
+              {
+                "const": "investment_account_balance"
+              },
+              {
+                "const": "retirement_account_balance"
+              },
+              {
+                "const": "credit_card_balance"
+              },
+              {
+                "const": "bank_balance_total"
+              },
+              {
+                "const": "trading_frequency_score"
+              },
+              {
+                "const": "verified_income"
+              },
+              {
+                "const": "loan_balance_total"
               },
               {
                 "const": "palm_verified"
               },
               {
-                "const": "age_gate_alcohol"
-              },
-              {
-                "const": "age_gate_gambling"
-              },
-              {
-                "const": "investment_gate"
-              },
-              {
                 "const": "humanity_user"
+              },
+              {
+                "const": "proof_of_assets"
+              },
+              {
+                "const": "proof_of_investments"
+              },
+              {
+                "const": "proof_of_mortgage"
+              },
+              {
+                "const": "proof_of_residency"
+              },
+              {
+                "const": "proof_of_retirement"
               }
             ]
           },
@@ -1353,7 +779,7 @@
             "type": "string"
           },
           "evidence": {
-            "$ref": "#/components/schemas/Recordstringstringnumberbooleannull"
+            "$ref": "#/components/schemas/Recordstringunknown"
           }
         },
         "required": [
@@ -1363,27 +789,12 @@
           "expires_at"
         ]
       },
-      "Recordstringstringnumberbooleannull": {
+      "Recordstringunknown": {
         "type": "object",
         "properties": {},
         "required": [],
         "description": "Construct a type with a set of properties K of type T",
-        "additionalProperties": {
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "boolean"
-            }
-          ]
-        }
+        "additionalProperties": {}
       },
       "VerifyPresetsResponse": {
         "type": "object",
@@ -1402,37 +813,166 @@
                 "preset": {
                   "oneOf": [
                     {
+                      "const": "humanity_uuid"
+                    },
+                    {
+                      "const": "humanity_score"
+                    },
+                    {
                       "const": "is_human"
                     },
                     {
-                      "const": "is_18_plus"
+                      "const": "country_of_residence"
                     },
                     {
-                      "const": "is_21_plus"
+                      "const": "age"
                     },
                     {
-                      "const": "is_accredited_investor"
+                      "const": "address_postal_code"
                     },
                     {
-                      "const": "is_qualified_purchaser"
+                      "const": "legal_name"
                     },
                     {
-                      "const": "is_institutional_investor"
+                      "const": "residency_region"
+                    },
+                    {
+                      "const": "age_over_18"
+                    },
+                    {
+                      "const": "nationality"
+                    },
+                    {
+                      "const": "address_full"
+                    },
+                    {
+                      "const": "date_of_birth"
+                    },
+                    {
+                      "const": "email"
+                    },
+                    {
+                      "const": "phone"
+                    },
+                    {
+                      "const": "age_over_21"
+                    },
+                    {
+                      "const": "social_accounts"
+                    },
+                    {
+                      "const": "wallet_addresses"
+                    },
+                    {
+                      "const": "primary_wallet_address"
+                    },
+                    {
+                      "const": "kyc_passed"
+                    },
+                    {
+                      "const": "is_high_risk"
+                    },
+                    {
+                      "const": "kyc_level"
+                    },
+                    {
+                      "const": "sanctions_clear"
+                    },
+                    {
+                      "const": "tax_residency"
+                    },
+                    {
+                      "const": "kyc_last_updated_at"
+                    },
+                    {
+                      "const": "tax_id"
+                    },
+                    {
+                      "const": "document_type"
+                    },
+                    {
+                      "const": "aml_screening_passed"
+                    },
+                    {
+                      "const": "pep_status"
+                    },
+                    {
+                      "const": "document_number"
+                    },
+                    {
+                      "const": "employment_status"
+                    },
+                    {
+                      "const": "document_country"
+                    },
+                    {
+                      "const": "geo_blocked_region"
+                    },
+                    {
+                      "const": "document_expiry_date"
+                    },
+                    {
+                      "const": "net_worth_above_10k"
+                    },
+                    {
+                      "const": "net_worth_above_100k"
+                    },
+                    {
+                      "const": "total_liabilities"
+                    },
+                    {
+                      "const": "net_worth_total"
+                    },
+                    {
+                      "const": "tradfi_balance"
+                    },
+                    {
+                      "const": "onchain_balance"
+                    },
+                    {
+                      "const": "cex_balance"
+                    },
+                    {
+                      "const": "investment_account_balance"
+                    },
+                    {
+                      "const": "retirement_account_balance"
+                    },
+                    {
+                      "const": "credit_card_balance"
+                    },
+                    {
+                      "const": "bank_balance_total"
+                    },
+                    {
+                      "const": "trading_frequency_score"
+                    },
+                    {
+                      "const": "verified_income"
+                    },
+                    {
+                      "const": "loan_balance_total"
                     },
                     {
                       "const": "palm_verified"
                     },
                     {
-                      "const": "age_gate_alcohol"
-                    },
-                    {
-                      "const": "age_gate_gambling"
-                    },
-                    {
-                      "const": "investment_gate"
-                    },
-                    {
                       "const": "humanity_user"
+                    },
+                    {
+                      "const": "proof_of_assets"
+                    },
+                    {
+                      "const": "proof_of_investments"
+                    },
+                    {
+                      "const": "proof_of_mortgage"
+                    },
+                    {
+                      "const": "proof_of_residency"
+                    },
+                    {
+                      "const": "proof_of_retirement"
                     }
                   ]
                 },
@@ -1493,7 +1033,7 @@
             "type": "string"
           },
           "context": {
-            "$ref": "#/components/schemas/Recordstringstringnumberbooleannull"
+            "$ref": "#/components/schemas/Recordstringstringnumberbooleanstringnull"
           }
         },
         "required": [
@@ -1501,6 +1041,34 @@
           "error_code",
           "error_description"
         ]
+      },
+      "Recordstringstringnumberbooleanstringnull": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "description": "Construct a type with a set of properties K of type T",
+        "additionalProperties": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        }
       },
       "VerifyPresetsRequest": {
         "type": "object",
@@ -1510,37 +1078,166 @@
             "items": {
               "oneOf": [
                 {
+                  "const": "humanity_uuid"
+                },
+                {
+                  "const": "humanity_score"
+                },
+                {
                   "const": "is_human"
                 },
                 {
-                  "const": "is_18_plus"
+                  "const": "country_of_residence"
                 },
                 {
-                  "const": "is_21_plus"
+                  "const": "age"
                 },
                 {
-                  "const": "is_accredited_investor"
+                  "const": "address_postal_code"
                 },
                 {
-                  "const": "is_qualified_purchaser"
+                  "const": "legal_name"
                 },
                 {
-                  "const": "is_institutional_investor"
+                  "const": "residency_region"
+                },
+                {
+                  "const": "age_over_18"
+                },
+                {
+                  "const": "nationality"
+                },
+                {
+                  "const": "address_full"
+                },
+                {
+                  "const": "date_of_birth"
+                },
+                {
+                  "const": "email"
+                },
+                {
+                  "const": "phone"
+                },
+                {
+                  "const": "age_over_21"
+                },
+                {
+                  "const": "social_accounts"
+                },
+                {
+                  "const": "wallet_addresses"
+                },
+                {
+                  "const": "primary_wallet_address"
+                },
+                {
+                  "const": "kyc_passed"
+                },
+                {
+                  "const": "is_high_risk"
+                },
+                {
+                  "const": "kyc_level"
+                },
+                {
+                  "const": "sanctions_clear"
+                },
+                {
+                  "const": "tax_residency"
+                },
+                {
+                  "const": "kyc_last_updated_at"
+                },
+                {
+                  "const": "tax_id"
+                },
+                {
+                  "const": "document_type"
+                },
+                {
+                  "const": "aml_screening_passed"
+                },
+                {
+                  "const": "pep_status"
+                },
+                {
+                  "const": "document_number"
+                },
+                {
+                  "const": "employment_status"
+                },
+                {
+                  "const": "document_country"
+                },
+                {
+                  "const": "geo_blocked_region"
+                },
+                {
+                  "const": "document_expiry_date"
+                },
+                {
+                  "const": "net_worth_above_10k"
+                },
+                {
+                  "const": "net_worth_above_100k"
+                },
+                {
+                  "const": "total_liabilities"
+                },
+                {
+                  "const": "net_worth_total"
+                },
+                {
+                  "const": "tradfi_balance"
+                },
+                {
+                  "const": "onchain_balance"
+                },
+                {
+                  "const": "cex_balance"
+                },
+                {
+                  "const": "investment_account_balance"
+                },
+                {
+                  "const": "retirement_account_balance"
+                },
+                {
+                  "const": "credit_card_balance"
+                },
+                {
+                  "const": "bank_balance_total"
+                },
+                {
+                  "const": "trading_frequency_score"
+                },
+                {
+                  "const": "verified_income"
+                },
+                {
+                  "const": "loan_balance_total"
                 },
                 {
                   "const": "palm_verified"
                 },
                 {
-                  "const": "age_gate_alcohol"
-                },
-                {
-                  "const": "age_gate_gambling"
-                },
-                {
-                  "const": "investment_gate"
-                },
-                {
                   "const": "humanity_user"
+                },
+                {
+                  "const": "proof_of_assets"
+                },
+                {
+                  "const": "proof_of_investments"
+                },
+                {
+                  "const": "proof_of_mortgage"
+                },
+                {
+                  "const": "proof_of_residency"
+                },
+                {
+                  "const": "proof_of_retirement"
                 }
               ]
             }
@@ -1556,47 +1253,503 @@
           "presets": {
             "type": "array",
             "items": {
-              "oneOf": [
-                {
-                  "const": "is_human"
-                },
-                {
-                  "const": "is_18_plus"
-                },
-                {
-                  "const": "is_21_plus"
-                },
-                {
-                  "const": "is_accredited_investor"
-                },
-                {
-                  "const": "is_qualified_purchaser"
-                },
-                {
-                  "const": "is_institutional_investor"
-                },
-                {
-                  "const": "palm_verified"
-                },
-                {
-                  "const": "age_gate_alcohol"
-                },
-                {
-                  "const": "age_gate_gambling"
-                },
-                {
-                  "const": "investment_gate"
-                },
-                {
-                  "const": "humanity_user"
-                }
-              ]
+              "$ref": "#/components/schemas/PresetInfo"
             }
           }
         },
         "required": [
           "presets"
         ]
+      },
+      "PresetInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "oneOf": [
+              {
+                "const": "humanity_uuid"
+              },
+              {
+                "const": "humanity_score"
+              },
+              {
+                "const": "is_human"
+              },
+              {
+                "const": "country_of_residence"
+              },
+              {
+                "const": "age"
+              },
+              {
+                "const": "address_postal_code"
+              },
+              {
+                "const": "legal_name"
+              },
+              {
+                "const": "residency_region"
+              },
+              {
+                "const": "age_over_18"
+              },
+              {
+                "const": "nationality"
+              },
+              {
+                "const": "address_full"
+              },
+              {
+                "const": "date_of_birth"
+              },
+              {
+                "const": "email"
+              },
+              {
+                "const": "phone"
+              },
+              {
+                "const": "age_over_21"
+              },
+              {
+                "const": "social_accounts"
+              },
+              {
+                "const": "wallet_addresses"
+              },
+              {
+                "const": "primary_wallet_address"
+              },
+              {
+                "const": "kyc_passed"
+              },
+              {
+                "const": "is_high_risk"
+              },
+              {
+                "const": "kyc_level"
+              },
+              {
+                "const": "sanctions_clear"
+              },
+              {
+                "const": "tax_residency"
+              },
+              {
+                "const": "kyc_last_updated_at"
+              },
+              {
+                "const": "tax_id"
+              },
+              {
+                "const": "document_type"
+              },
+              {
+                "const": "aml_screening_passed"
+              },
+              {
+                "const": "pep_status"
+              },
+              {
+                "const": "document_number"
+              },
+              {
+                "const": "employment_status"
+              },
+              {
+                "const": "document_country"
+              },
+              {
+                "const": "geo_blocked_region"
+              },
+              {
+                "const": "document_expiry_date"
+              },
+              {
+                "const": "net_worth_above_10k"
+              },
+              {
+                "const": "net_worth_above_100k"
+              },
+              {
+                "const": "total_liabilities"
+              },
+              {
+                "const": "net_worth_total"
+              },
+              {
+                "const": "tradfi_balance"
+              },
+              {
+                "const": "onchain_balance"
+              },
+              {
+                "const": "cex_balance"
+              },
+              {
+                "const": "investment_account_balance"
+              },
+              {
+                "const": "retirement_account_balance"
+              },
+              {
+                "const": "credit_card_balance"
+              },
+              {
+                "const": "bank_balance_total"
+              },
+              {
+                "const": "trading_frequency_score"
+              },
+              {
+                "const": "verified_income"
+              },
+              {
+                "const": "loan_balance_total"
+              },
+              {
+                "const": "palm_verified"
+              },
+              {
+                "const": "humanity_user"
+              },
+              {
+                "const": "proof_of_assets"
+              },
+              {
+                "const": "proof_of_investments"
+              },
+              {
+                "const": "proof_of_mortgage"
+              },
+              {
+                "const": "proof_of_residency"
+              },
+              {
+                "const": "proof_of_retirement"
+              }
+            ]
+          },
+          "scope": {
+            "oneOf": [
+              {
+                "const": "identity:read"
+              },
+              {
+                "const": "kyc:read"
+              },
+              {
+                "const": "financial:read"
+              },
+              {
+                "const": "identity:date_of_birth"
+              },
+              {
+                "const": "identity:address_postal_code"
+              },
+              {
+                "const": "identity:address_full"
+              },
+              {
+                "const": "identity:legal_name"
+              },
+              {
+                "const": "kyc:tax_residency"
+              },
+              {
+                "const": "kyc:tax_id"
+              },
+              {
+                "const": "kyc:document_number"
+              },
+              {
+                "const": "financial:bank_balance"
+              },
+              {
+                "const": "financial:credit_card_balance"
+              },
+              {
+                "const": "financial:loan_balance"
+              },
+              {
+                "const": "financial:retirement_balance"
+              },
+              {
+                "const": "financial:investment_balance"
+              },
+              {
+                "const": "financial:net_worth"
+              },
+              {
+                "const": "financial:verified_income"
+              },
+              {
+                "const": "financial:tradfi_balance"
+              },
+              {
+                "const": "financial:onchain_balance"
+              },
+              {
+                "const": "financial:total_liabilities"
+              },
+              {
+                "const": "openid"
+              },
+              {
+                "const": "profile.full"
+              },
+              {
+                "const": "data.read"
+              }
+            ]
+          },
+          "category": {
+            "oneOf": [
+              {
+                "const": "identity"
+              },
+              {
+                "const": "kyc"
+              },
+              {
+                "const": "financial"
+              },
+              {
+                "const": "profile"
+              }
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "consentText": {
+            "type": "string"
+          },
+          "type": {
+            "oneOf": [
+              {
+                "const": "string"
+              },
+              {
+                "const": "number"
+              },
+              {
+                "const": "boolean"
+              },
+              {
+                "const": "integer"
+              },
+              {
+                "const": "date"
+              },
+              {
+                "const": "datetime"
+              },
+              {
+                "const": "array"
+              },
+              {
+                "const": "enum"
+              }
+            ]
+          },
+          "sensitivity": {
+            "oneOf": [
+              {
+                "const": "low"
+              },
+              {
+                "const": "medium"
+              },
+              {
+                "const": "high"
+              },
+              {
+                "const": "critical"
+              }
+            ]
+          },
+          "derived": {
+            "type": "boolean"
+          },
+          "parentField": {
+            "oneOf": [
+              {
+                "const": "humanity_uuid"
+              },
+              {
+                "const": "humanity_score"
+              },
+              {
+                "const": "is_human"
+              },
+              {
+                "const": "country_of_residence"
+              },
+              {
+                "const": "age"
+              },
+              {
+                "const": "address_postal_code"
+              },
+              {
+                "const": "legal_name"
+              },
+              {
+                "const": "residency_region"
+              },
+              {
+                "const": "age_over_18"
+              },
+              {
+                "const": "nationality"
+              },
+              {
+                "const": "address_full"
+              },
+              {
+                "const": "date_of_birth"
+              },
+              {
+                "const": "email"
+              },
+              {
+                "const": "phone"
+              },
+              {
+                "const": "age_over_21"
+              },
+              {
+                "const": "social_accounts"
+              },
+              {
+                "const": "wallet_addresses"
+              },
+              {
+                "const": "primary_wallet_address"
+              },
+              {
+                "const": "kyc_passed"
+              },
+              {
+                "const": "is_high_risk"
+              },
+              {
+                "const": "kyc_level"
+              },
+              {
+                "const": "sanctions_clear"
+              },
+              {
+                "const": "tax_residency"
+              },
+              {
+                "const": "kyc_last_updated_at"
+              },
+              {
+                "const": "tax_id"
+              },
+              {
+                "const": "document_type"
+              },
+              {
+                "const": "aml_screening_passed"
+              },
+              {
+                "const": "pep_status"
+              },
+              {
+                "const": "document_number"
+              },
+              {
+                "const": "employment_status"
+              },
+              {
+                "const": "document_country"
+              },
+              {
+                "const": "geo_blocked_region"
+              },
+              {
+                "const": "document_expiry_date"
+              },
+              {
+                "const": "net_worth_above_10k"
+              },
+              {
+                "const": "net_worth_above_100k"
+              },
+              {
+                "const": "total_liabilities"
+              },
+              {
+                "const": "net_worth_total"
+              },
+              {
+                "const": "tradfi_balance"
+              },
+              {
+                "const": "onchain_balance"
+              },
+              {
+                "const": "cex_balance"
+              },
+              {
+                "const": "investment_account_balance"
+              },
+              {
+                "const": "retirement_account_balance"
+              },
+              {
+                "const": "credit_card_balance"
+              },
+              {
+                "const": "bank_balance_total"
+              },
+              {
+                "const": "trading_frequency_score"
+              },
+              {
+                "const": "verified_income"
+              },
+              {
+                "const": "loan_balance_total"
+              },
+              {
+                "const": "palm_verified"
+              },
+              {
+                "const": "humanity_user"
+              },
+              {
+                "const": "proof_of_assets"
+              },
+              {
+                "const": "proof_of_investments"
+              },
+              {
+                "const": "proof_of_mortgage"
+              },
+              {
+                "const": "proof_of_residency"
+              },
+              {
+                "const": "proof_of_retirement"
+              }
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "scope",
+          "category",
+          "description",
+          "consentText",
+          "type",
+          "sensitivity",
+          "derived"
+        ],
+        "description": "Full preset info including scope and category."
       },
       "UserInfoResponse": {
         "type": "object",
@@ -1938,10 +2091,10 @@
           "status": {
             "oneOf": [
               {
-                "const": "revoked"
+                "const": "active"
               },
               {
-                "const": "active"
+                "const": "revoked"
               }
             ]
           },
@@ -2260,222 +2413,6 @@
         "required": [
           "authorization_id"
         ]
-      },
-      "AuthorizeDenyResponse": {
-        "type": "object",
-        "properties": {
-          "authorization_id": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "redirect_uri": {
-            "type": "string"
-          },
-          "state": {
-            "type": "string"
-          },
-          "client_id": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "authorization_id",
-          "status",
-          "redirect_uri",
-          "client_id"
-        ]
-      },
-      "AuthorizeDenyRequest": {
-        "type": "object",
-        "properties": {
-          "authorization_id": {
-            "type": "string"
-          },
-          "reason": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "authorization_id"
-        ]
-      },
-      "HealthLivenessResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "const": "ok"
-          },
-          "uptime": {
-            "type": "number"
-          },
-          "version": {
-            "type": "string"
-          },
-          "commit": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          },
-          "timestamp": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "status",
-          "uptime",
-          "version",
-          "commit",
-          "timestamp"
-        ]
-      },
-      "HealthReadinessResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "oneOf": [
-              {
-                "const": "ready"
-              },
-              {
-                "const": "not_ready"
-              }
-            ]
-          },
-          "checks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HealthReadinessCheck"
-            }
-          }
-        },
-        "required": [
-          "status",
-          "checks"
-        ]
-      },
-      "HealthReadinessCheck": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "ok": {
-            "type": "boolean"
-          },
-          "details": {
-            "$ref": "#/components/schemas/Recordstringstringnumberbooleannull.o1"
-          }
-        },
-        "required": [
-          "name",
-          "ok"
-        ]
-      },
-      "Recordstringstringnumberbooleannull.o1": {
-        "type": "object",
-        "properties": {},
-        "required": [],
-        "description": "Construct a type with a set of properties K of type T",
-        "additionalProperties": {
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "boolean"
-            }
-          ]
-        }
-      },
-      "ExamplePingResponse": {
-        "type": "object",
-        "properties": {
-          "pong": {
-            "const": true
-          },
-          "at": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "pong",
-          "at"
-        ]
-      },
-      "ExampleEchoResponse": {
-        "type": "object",
-        "properties": {
-          "ok": {
-            "const": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/Recordstringstringnumberbooleannull.o2"
-          },
-          "at": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "ok",
-          "data",
-          "at"
-        ]
-      },
-      "Recordstringstringnumberbooleannull.o2": {
-        "type": "object",
-        "properties": {},
-        "required": [],
-        "description": "Construct a type with a set of properties K of type T",
-        "additionalProperties": {
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "boolean"
-            }
-          ]
-        }
-      },
-      "ExampleEchoRequest": {
-        "type": "object",
-        "properties": {},
-        "required": [],
-        "additionalProperties": {
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "boolean"
-            }
-          ]
-        }
       },
       "OpenIdConfiguration": {
         "type": "object",
@@ -2800,37 +2737,166 @@
           "name": {
             "oneOf": [
               {
+                "const": "humanity_uuid"
+              },
+              {
+                "const": "humanity_score"
+              },
+              {
                 "const": "is_human"
               },
               {
-                "const": "is_18_plus"
+                "const": "country_of_residence"
               },
               {
-                "const": "is_21_plus"
+                "const": "age"
               },
               {
-                "const": "is_accredited_investor"
+                "const": "address_postal_code"
               },
               {
-                "const": "is_qualified_purchaser"
+                "const": "legal_name"
               },
               {
-                "const": "is_institutional_investor"
+                "const": "residency_region"
+              },
+              {
+                "const": "age_over_18"
+              },
+              {
+                "const": "nationality"
+              },
+              {
+                "const": "address_full"
+              },
+              {
+                "const": "date_of_birth"
+              },
+              {
+                "const": "email"
+              },
+              {
+                "const": "phone"
+              },
+              {
+                "const": "age_over_21"
+              },
+              {
+                "const": "social_accounts"
+              },
+              {
+                "const": "wallet_addresses"
+              },
+              {
+                "const": "primary_wallet_address"
+              },
+              {
+                "const": "kyc_passed"
+              },
+              {
+                "const": "is_high_risk"
+              },
+              {
+                "const": "kyc_level"
+              },
+              {
+                "const": "sanctions_clear"
+              },
+              {
+                "const": "tax_residency"
+              },
+              {
+                "const": "kyc_last_updated_at"
+              },
+              {
+                "const": "tax_id"
+              },
+              {
+                "const": "document_type"
+              },
+              {
+                "const": "aml_screening_passed"
+              },
+              {
+                "const": "pep_status"
+              },
+              {
+                "const": "document_number"
+              },
+              {
+                "const": "employment_status"
+              },
+              {
+                "const": "document_country"
+              },
+              {
+                "const": "geo_blocked_region"
+              },
+              {
+                "const": "document_expiry_date"
+              },
+              {
+                "const": "net_worth_above_10k"
+              },
+              {
+                "const": "net_worth_above_100k"
+              },
+              {
+                "const": "total_liabilities"
+              },
+              {
+                "const": "net_worth_total"
+              },
+              {
+                "const": "tradfi_balance"
+              },
+              {
+                "const": "onchain_balance"
+              },
+              {
+                "const": "cex_balance"
+              },
+              {
+                "const": "investment_account_balance"
+              },
+              {
+                "const": "retirement_account_balance"
+              },
+              {
+                "const": "credit_card_balance"
+              },
+              {
+                "const": "bank_balance_total"
+              },
+              {
+                "const": "trading_frequency_score"
+              },
+              {
+                "const": "verified_income"
+              },
+              {
+                "const": "loan_balance_total"
               },
               {
                 "const": "palm_verified"
               },
               {
-                "const": "age_gate_alcohol"
-              },
-              {
-                "const": "age_gate_gambling"
-              },
-              {
-                "const": "investment_gate"
-              },
-              {
                 "const": "humanity_user"
+              },
+              {
+                "const": "proof_of_assets"
+              },
+              {
+                "const": "proof_of_investments"
+              },
+              {
+                "const": "proof_of_mortgage"
+              },
+              {
+                "const": "proof_of_residency"
+              },
+              {
+                "const": "proof_of_retirement"
               }
             ]
           },
@@ -2840,7 +2906,25 @@
           "type": {
             "oneOf": [
               {
+                "const": "string"
+              },
+              {
+                "const": "number"
+              },
+              {
                 "const": "boolean"
+              },
+              {
+                "const": "integer"
+              },
+              {
+                "const": "date"
+              },
+              {
+                "const": "datetime"
+              },
+              {
+                "const": "array"
               },
               {
                 "const": "enum"
@@ -2863,158 +2947,6 @@
           "type",
           "description",
           "consent_text"
-        ]
-      },
-      "AuthLogoutResponse": {
-        "type": "object",
-        "properties": {
-          "ok": {
-            "const": true
-          }
-        },
-        "required": [
-          "ok"
-        ]
-      },
-      "AuthLogoutRequest": {
-        "type": "object",
-        "properties": {
-          "accessToken": {
-            "type": "string"
-          },
-          "refreshToken": {
-            "type": "string"
-          }
-        },
-        "required": []
-      },
-      "AuthMeResponse": {
-        "type": "object",
-        "properties": {
-          "user": {
-            "$ref": "#/components/schemas/AccessClaims"
-          }
-        },
-        "required": [
-          "user"
-        ]
-      },
-      "AccessClaims": {
-        "type": "object",
-        "properties": {
-          "sub": {
-            "type": "string"
-          },
-          "iss": {
-            "type": "string"
-          },
-          "aud": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "tenantId": {
-            "type": "string"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "scopes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "iat": {
-            "type": "number"
-          },
-          "exp": {
-            "type": "number"
-          },
-          "jti": {
-            "type": "string"
-          },
-          "typ": {
-            "const": "access"
-          }
-        },
-        "required": [
-          "sub",
-          "iss",
-          "aud",
-          "roles",
-          "iat",
-          "exp",
-          "jti",
-          "typ"
-        ]
-      },
-      "CreateStandardAccessRequestResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "status": {
-            "const": "pending"
-          }
-        },
-        "required": [
-          "id",
-          "status"
-        ]
-      },
-      "AccessAcceptDeveloperResponse": {
-        "type": "object",
-        "properties": {
-          "ok": {
-            "const": true
-          }
-        },
-        "required": [
-          "ok"
-        ]
-      },
-      "AcceptDeveloperRequestBody": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string"
-          },
-          "requestId": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "userId"
-        ]
-      },
-      "AccessListResponse": {
-        "type": "object",
-        "properties": {
-          "access": {
-            "type": "array",
-            "items": {
-              "oneOf": [
-                {
-                  "const": "standard"
-                },
-                {
-                  "const": "developer"
-                },
-                {
-                  "const": "admin"
-                }
-              ]
-            }
-          }
-        },
-        "required": [
-          "access"
         ]
       }
     }
